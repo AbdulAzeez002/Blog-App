@@ -16,6 +16,12 @@ import AdminHome from './components/Home/AdminHome';
 import PostsList from './components/Posts/PostsList';
 import UserHome from './components/Home/UserHome';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import PostDetails from './components/Posts/PostDetails';
+import Pagination from './Pagination';
+import UpdatePost from './components/Posts/UpdatePost';
+
+
+
 
 
 
@@ -45,10 +51,18 @@ function App() {
 
 
   <Route path='/category-list' element={<CategoryList />} />
-  <Route path='/update-category/:id' element={<UpdateCategory />} />
+  <Route path='/update-category/:id' element={<AdminProtected >
+    <UpdateCategory />
+    </AdminProtected>} />
   <Route path='/create-post' element={
     <UserProtected >
       <CreatePost />
+    </UserProtected>
+  } />
+
+<Route path='/update-post/:id' element={
+    <UserProtected >
+      <UpdatePost/>
     </UserProtected>
   } />
 
@@ -59,6 +73,7 @@ function App() {
   } />
 
   <Route path='/posts' element={<PostsList />} />
+  <Route path='/posts/:id' element={<PostDetails/>} />
 
 </Routes>
 

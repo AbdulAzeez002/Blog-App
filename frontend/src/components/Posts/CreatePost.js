@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 // import { useQuill } from 'react-quilljs';
 import 'quill/dist/quill.snow.css';
+import { useMemo, useRef } from "react";
 // import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import * as Yup from "yup";
@@ -14,6 +15,7 @@ import { useNavigate } from 'react-router-dom'
 import { createpostAction, reset } from "../../redux/slices/posts/postSlices";
 import CategoryDropDown from "../Categories/CategoryDropDown";
 import { useEffect } from "react";
+import JoditEditor from "jodit-react";
 
 
 //Form schema
@@ -42,11 +44,9 @@ border-color:'red'
 
 
 export default function CreatePost() {
-
+  const editor = useRef(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // const [description,setDescription]=useState()
-  // const { quill, quillRef } = useQuill();
   //select store data
   const post = useSelector(state => state?.post);
   const { isCreated, loading, appErr, serverErr } = post;
@@ -55,16 +55,17 @@ export default function CreatePost() {
   const formik = useFormik({
     initialValues: {
       title: "",
-      
+      description:"",
       category: "",
       image: "",
     },
     onSubmit: values => {
-      console.log('hyy')
+      // console.log(values)
+      // console.log('hyy')
       const data = {
         category: values?.category?.label,
         title: values?.title,
-        // description: description,
+        description: values.description,
         image: values?.image,
       };
       console.log(data)
@@ -81,22 +82,11 @@ export default function CreatePost() {
     dispatch(reset())
   }, [isCreated])
 
-//  useEffect(() => {
-//     if (quill) {
-//       quill.on('text-change', () => {
-//         // console.log(quillRef.current.firstChild.innerHTML);
-//         setDescription(quillRef.current.firstChild.innerHTML)
-       
-//       });
-//     }
-//   }, [quill]);
-
-  // console.log(description,"this is quilll")
 
 
   return (
     <>
-      <div className=" bg-gray-30 flex flex-col justify-center py-4 sm:px-6 lg:px-8">
+      <div className=" container bg-gray-30 flex flex-col justify-center py-4 sm:px-6 lg:px-8">
         <div className=" sm:mx-auto sm:w-full sm:max-w-md">
           <h2 className="mt-6 text-center text-3xl font-bold text-cyan-900">
             CREATE A POST
@@ -168,8 +158,19 @@ export default function CreatePost() {
                   <div ref={quillRef} />
                 </div> */}
 
+                 <JoditEditor
+                  ref={editor}
+                  value={formik.values.description}
+                  onChange={formik.handleChange("description")}
+                  onBlur={formik.handleBlur("description")}
+                  rows="5"
+                  cols="10"
+                  className="rounded-lg appearance-none block w-full py-3 px-3 text-base text-center leading-tight text-gray-600 bg-transparent focus:bg-transparent  border border-gray-200 focus:border-gray-500  focus:outline-none"
+                  type="text"
+                  />
 
 
+{/* 
                 <textarea
                   value={formik.values.description}
                   onChange={formik.handleChange("description")}
@@ -178,7 +179,7 @@ export default function CreatePost() {
                   cols="10"
                   className="rounded-lg appearance-none block w-full py-3 px-3 text-base text-center leading-tight text-gray-600 bg-transparent focus:bg-transparent  border border-gray-200 focus:border-gray-500  focus:outline-none"
                   type="text"
-                ></textarea>
+                ></textarea> */}
                 {/* Err msg */}
                 <div className="text-rose-700">
                   {formik?.touched?.description && formik.errors.description}

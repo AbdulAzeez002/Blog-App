@@ -7,7 +7,8 @@ const User = require("../../models/user/User");
 const cloudinaryUploadImg = require("../../utils/cloudinary");
 
 const createPostCtrl = expressAsyncHandler(async (req, res) => {
-  console.log('iiiiiiiiiiiiiiiiiiiiiiiiiiiii');
+  console.log(req.body)
+  console.log('reached post create');
   // console.log(req.file); 
   const { _id } = req.user;
   console.log(_id);
@@ -30,7 +31,9 @@ const createPostCtrl = expressAsyncHandler(async (req, res) => {
   //2.Upload to cloudinary
   const imgUploaded = await cloudinaryUploadImg(localPath);
   try {
+    console.log(req.body,'posts')
     const post = await Post.create({
+
       ...req.body,
       image: imgUploaded?.url,
       user: _id,
@@ -47,10 +50,28 @@ const createPostCtrl = expressAsyncHandler(async (req, res) => {
 //Fetch al posts
 //-------------------------------
 const fetchAllPosts = expressAsyncHandler(async (req, res) => {
+  console.log('abc');
+  const hasCategory=req?.query?.category
+  console.log(hasCategory)
+ 
   try {
-    const posts = await Post.find({}).populate("user");;
-    res.json(posts);
-  } catch (error) {}
+ console.log('try');
+    // check it has category
+    if(hasCategory!='undefined' && hasCategory!='ALL CATAGORIES' && hasCategory!=undefined){
+      console.log('has')
+      const posts = await Post.find({category:hasCategory}).populate("user");
+      res.json(posts);
+    }
+    
+    else{
+      console.log('else')
+      const posts = await Post.find({}).populate("user");
+      res.json(posts);
+    }
+    
+  } catch (error) {
+    res.json(error)
+  }
 });
 
 //------------------------------
@@ -121,9 +142,12 @@ const deletePostCtrl = expressAsyncHandler(async (req, res) => {
 //------------------------------
 
 const toggleAddLikeToPostCtrl = expressAsyncHandler(async (req, res) => {
+  console.log('reahed like')
   //1.Find the post to be liked
   const { postId } = req.body;
+
   const post = await Post.findById(postId);
+
   //2. Find the login user
   const loginUserId = req?.user?._id;
   //3. Find is this user has liked this post?
@@ -132,8 +156,12 @@ const toggleAddLikeToPostCtrl = expressAsyncHandler(async (req, res) => {
   const alreadyDisliked = post?.disLikes?.find(
     userId => userId?.toString() === loginUserId?.toString()
   );
+
+  console.log(alreadyDisliked)
+  console.log('disliked already');
   //5.remove the user from dislikes array if exists
   if (alreadyDisliked) {
+    console.log('dis');
     const post = await Post.findByIdAndUpdate(
       postId,
       {
@@ -142,11 +170,12 @@ const toggleAddLikeToPostCtrl = expressAsyncHandler(async (req, res) => {
       },
       { new: true }
     );
-    res.json(post);
+    // res.json(post);
   }
   //Toggle
   //Remove the user if he has liked the post
   if (isLiked) {
+    console.log('remove from like');
     const post = await Post.findByIdAndUpdate(
       postId,
       {
@@ -158,6 +187,7 @@ const toggleAddLikeToPostCtrl = expressAsyncHandler(async (req, res) => {
     res.json(post);
   } else {
     //add to likes
+    console.log('add like')
     const post = await Post.findByIdAndUpdate(
       postId,
       {
@@ -176,19 +206,27 @@ const toggleAddLikeToPostCtrl = expressAsyncHandler(async (req, res) => {
 //------------------------------
 
 const toggleAddDislikeToPostCtrl = expressAsyncHandler(async (req, res) => {
+  console.log('reached disliked');
   //1.Find the post to be disLiked
   const { postId } = req.body;
+  console.log('podtid');
   const post = await Post.findById(postId);
   //2.Find the login user
   const loginUserId = req?.user?._id;
+  console.log('userId');
   //3.Check if this user has already disLikes
   const isDisLiked = post?.isDisLiked;
+  console.log(isDisLiked);
   //4. Check if already like this post
   const alreadyLiked = post?.likes?.find(
     userId => userId.toString() === loginUserId?.toString()
   );
+
+  console.log(alreadyLiked);
+  
   //Remove this user from likes array if it exists
   if (alreadyLiked) {
+    console.log('alredy liked')
     const post = await Post.findOneAndUpdate(
       postId,
       {
@@ -197,11 +235,12 @@ const toggleAddDislikeToPostCtrl = expressAsyncHandler(async (req, res) => {
       },
       { new: true }
     );
-    res.json(post);
+    // res.json(post);
   }
   //Toggling
   //Remove this user from dislikes if already disliked
   if (isDisLiked) {
+    console.log('remove from like')
     const post = await Post.findByIdAndUpdate(
       postId,
       {
@@ -212,6 +251,7 @@ const toggleAddDislikeToPostCtrl = expressAsyncHandler(async (req, res) => {
     );
     res.json(post);
   } else {
+    console.log('asd to dislimke');
     const post = await Post.findByIdAndUpdate(
       postId,
       {

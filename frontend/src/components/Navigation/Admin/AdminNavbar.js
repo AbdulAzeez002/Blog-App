@@ -37,7 +37,7 @@ const AdminNavbar = () => {
   //logout
   const dispatch = useDispatch();
   return (
-    <Disclosure as="nav" className="bg-cyan-900 fixed top-0">
+    <Disclosure as="nav" className="bg-cyan-900 fixed top-0 left-0 right-0 z-10">
       {({ open }) => (
         <>
           <div className=" mx-auto px-4 sm:px-6 lg:px-8">
