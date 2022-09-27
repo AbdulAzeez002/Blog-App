@@ -2,13 +2,7 @@
 
 ## Table of contents
 
-- [Introduction](#introduction)
-<<<<<<< HEAD
-
-=======
-- [Demo](#demo)
-- [Run](#run)
->>>>>>> 3a3883ef91a9c93dca1110b1ad7deee6dcef341d
+- [Introduction]
 - [Technology](#technology)
 - [Features](#features)
 - [License](#license)
