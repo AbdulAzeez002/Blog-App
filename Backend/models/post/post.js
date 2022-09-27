@@ -13,6 +13,10 @@ const postSchema = new mongoose.Schema(
       required: [true, "Post category is required"],
       default: "All",
     },
+    subCategory: {
+      type: String,
+      
+    },
     isLiked: {
       type: Boolean,
       default: false,
@@ -62,6 +66,15 @@ const postSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+// populate comments
+postSchema.virtual('comments',{
+  ref:'Comment',
+  foreignField:'post',
+  localField:'_id'
+
+})
+
 
 //compile
 const Post = mongoose.model("Post", postSchema);

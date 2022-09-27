@@ -6,6 +6,7 @@ const validateMongodbId = require("../../utils/validateMongodbID");
 const User = require("../../models/user/User");
 const cloudinaryUploadImg = require("../../utils/cloudinary");
 
+
 const createPostCtrl = expressAsyncHandler(async (req, res) => {
   console.log(req.body)
   console.log('reached post create');
@@ -47,25 +48,26 @@ const createPostCtrl = expressAsyncHandler(async (req, res) => {
 });
 
 //-------------------------------
-//Fetch al posts
+//Fetch all posts
 //-------------------------------
 const fetchAllPosts = expressAsyncHandler(async (req, res) => {
-  console.log('abc');
+ 
   const hasCategory=req?.query?.category
   console.log(hasCategory)
  
   try {
- console.log('try');
+ 
     // check it has category
     if(hasCategory!='undefined' && hasCategory!='ALL CATAGORIES' && hasCategory!=undefined){
       console.log('has')
-      const posts = await Post.find({category:hasCategory}).populate("user");
+      const posts = await Post.find({category:hasCategory}).populate("user").populate("comments");
+      console.log(posts)
       res.json(posts);
     }
     
     else{
-      console.log('else')
-      const posts = await Post.find({}).populate("user");
+      
+      const posts = await Post.find({}).populate("user").populate("comments");
       res.json(posts);
     }
     
@@ -82,7 +84,7 @@ const fetchSinglePostCtrl = expressAsyncHandler(async (req, res) => {
   const { id } = req.params;
   validateMongodbId(id);
   try {
-    const post = await Post.findById(id).populate("user");
+    const post = await Post.findById(id).populate("user").populate('comments');
     //update number of views
     await Post.findByIdAndUpdate(
       id,
@@ -127,10 +129,13 @@ const updatePostCtrl = expressAsyncHandler(async (req, res) => {
 //------------------------------
 
 const deletePostCtrl = expressAsyncHandler(async (req, res) => {
+  console.log('delted')
   const { id } = req.params;
+  console.log(id)
   validateMongodbId(id);
   try {
-    const post = await Post.findOneAndDelete(id);
+    const post = await Post.findByIdAndDelete(id);
+    console.log(post)
     res.json(post);
   } catch (error) {
     res.json(error);
@@ -227,7 +232,7 @@ const toggleAddDislikeToPostCtrl = expressAsyncHandler(async (req, res) => {
   //Remove this user from likes array if it exists
   if (alreadyLiked) {
     console.log('alredy liked')
-    const post = await Post.findOneAndUpdate(
+    const post = await Post.findByIdAndUpdate(
       postId,
       {
         $pull: { likes: loginUserId },

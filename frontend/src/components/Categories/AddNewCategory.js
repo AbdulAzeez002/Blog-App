@@ -47,7 +47,7 @@ const AddNewCategory = () => {
 
 
   return (
-    <div className=" flex items-center justify-center  bg-white pt-20 px-4 sm:px-6 lg:px-8">
+    <div className=" flex items-center justify-center  bg-white pt-20 px-4 sm:px-6 lg:px-8 mt-20">
       <div className="max-w-md w-full space-y-8">
         <div>
           <BiCategory className="mx-auto h-12 w-auto text-cyan-900 " />

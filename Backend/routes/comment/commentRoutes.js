@@ -5,7 +5,7 @@ const commentRoutes=express.Router()
 
 
 commentRoutes.post('/',authMiddleware,createCommentCtrl)
-commentRoutes.get('/',authMiddleware,fetchAllCommentsCtrl)
+commentRoutes.get('/',fetchAllCommentsCtrl)
 commentRoutes.get("/:id", authMiddleware, fetchCommentCtrl);
 commentRoutes.put("/:id", authMiddleware, updateCommentCtrl);
 commentRoutes.delete("/:id", authMiddleware, deleteCommentCtrl);

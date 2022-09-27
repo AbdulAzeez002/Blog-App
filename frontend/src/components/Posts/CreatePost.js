@@ -38,7 +38,7 @@ const Container = styled.div`
   border-style: dashed;
   background-color: #fafafa;
   color: #bdbdbd;
-border-color:'red'
+  border-color:'red'
   transition: border 0.24s ease-in-out;
 `;
 
@@ -50,7 +50,7 @@ export default function CreatePost() {
   //select store data
   const post = useSelector(state => state?.post);
   const { isCreated, loading, appErr, serverErr } = post;
-
+  const [preview,setPreview]=useState('')
   //formik
   const formik = useFormik({
     initialValues: {
@@ -58,15 +58,15 @@ export default function CreatePost() {
       description:"",
       category: "",
       image: "",
+      subCategory:""
     },
     onSubmit: values => {
-      // console.log(values)
-      // console.log('hyy')
       const data = {
         category: values?.category?.label,
         title: values?.title,
         description: values.description,
         image: values?.image,
+        subCategory:values?.subCategory
       };
       console.log(data)
       //dispath the action
@@ -82,7 +82,20 @@ export default function CreatePost() {
     dispatch(reset())
   }, [isCreated])
 
+  useEffect(()=>{
+   if(formik?.values?.image){
+   const reader=new FileReader();
+   reader.onloadend=()=>{
+    setPreview(reader.result)
+   }
+   reader.readAsDataURL(formik?.values?.image)
+   }
+   else{
+    setPreview(null)
+   }
+  },[formik?.values?.image])
 
+ console.log(formik?.values?.image,'image')
 
   return (
     <>
@@ -139,14 +152,44 @@ export default function CreatePost() {
               >
                 Category
               </label>
-              {/* Category input goes here */}
+              <div >
               <CategoryDropDown
-                value={formik.values.category?.label}
-                onChange={formik.setFieldValue}
-                onBlur={formik.setFieldTouched}
-                error={formik.errors.category}
-                touched={formik.touched.category}
-              />
+            
+            value={formik.values.category?.label}
+            onChange={formik.setFieldValue}
+            onBlur={formik.setFieldTouched}
+            error={formik.errors.category}
+            touched={formik.touched.category}
+          />
+              </div>
+
+               {/* other category */}
+
+               {
+                formik.values.category?.label==='Others' ?<><label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Other category name
+              </label>
+              <div className="mt-1 mb-5 ">
+                {/* Title */}
+                <input
+                  value={formik.values.subCategory}
+                  onChange={formik.handleChange("subCategory")}
+                  onBlur={formik.handleBlur("subCategory")}
+                  id="subCategory"
+                  name="subCategory"
+                  type="subCategory"
+                  autoComplete="subCategory"
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                />
+              </div></> :null
+               }
+              
+              
+              {/* Category input goes here */}
+              
               <div>
                 <label
                   htmlFor="password"
@@ -154,9 +197,6 @@ export default function CreatePost() {
                 >
                   Description
                 </label>
-                {/* <div style={{ width:450, height: 200 }} className="mb-24">
-                  <div ref={quillRef} />
-                </div> */}
 
                  <JoditEditor
                   ref={editor}
@@ -192,7 +232,37 @@ export default function CreatePost() {
                 >
                   Select image to upload
                 </label>
-                <Container className="container bg-gray-700">
+
+                {
+                  preview ?<img src={preview} onClick={()=>{
+                    setPreview(null)
+                   }}/> :<Container className="container bg-gray-700">
+                   <Dropzone
+                     onBlur={formik.handleBlur("image")}
+                     accept="image/jpeg, image/png"
+                     onDrop={acceptedFiles => {
+                       formik.setFieldValue("image", acceptedFiles[0]);
+                     }}
+                   >
+                     {({ getRootProps, getInputProps }) => (
+                       <div className="container">
+                         <div
+                           {...getRootProps({
+                             className: "dropzone",
+                             onDrop: event => event.stopPropagation(),
+                           })}
+                         >
+                           <input {...getInputProps()} />
+                           <p className="text-gray-300 text-lg cursor-pointer hover:text-gray-500">
+                             Click here to select image
+                           </p>
+                         </div>
+                       </div>
+                     )}
+                   </Dropzone>
+                 </Container>
+                }
+                {/* <Container className="container bg-gray-700">
                   <Dropzone
                     onBlur={formik.handleBlur("image")}
                     accept="image/jpeg, image/png"
@@ -216,10 +286,12 @@ export default function CreatePost() {
                       </div>
                     )}
                   </Dropzone>
-                </Container>
+                </Container> */}
 
 
               </div>
+               
+              
               <div>
                 {/* Submit btn */}
                 {loading ? (

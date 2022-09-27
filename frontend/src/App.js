@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import HomePage from './components/Home/HomPage';
+import Home from './components/Home/Home';
 import Register from './components/User/Register/Register'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
@@ -17,71 +17,94 @@ import PostsList from './components/Posts/PostsList';
 import UserHome from './components/Home/UserHome';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import PostDetails from './components/Posts/PostDetails';
-import Pagination from './Pagination';
 import UpdatePost from './components/Posts/UpdatePost';
-
-
-
-
-
-
+import Profile from './components/User/Profile/Profile';
+import UploadProfilePhoto from './components/User/Profile/UploadProfilePhoto';
+import UpdateProfileForm from './components/User/Profile/UpdateProfileForm';
 function App() {
   return (
     <>
 
-<GoogleOAuthProvider clientId="532847267857-tdpepd8lv7ajn68ft76to25hap0mgutl.apps.googleusercontent.com">
-<Router>
+      <GoogleOAuthProvider clientId="532847267857-tdpepd8lv7ajn68ft76to25hap0mgutl.apps.googleusercontent.com">
+        <Router>
 
-<Navbar />
-<Routes>
-  <Route path='/' element={<HomePage />} />
-  <Route path='/register' element={<Register />} />
-  <Route path='/login' element={<Login />} />
-  <Route path='/add-category' element={
-    <AdminProtected >
-      <AddNewCategory />
-    </AdminProtected>
-  } />
+          <Navbar />
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/register' element={<Register />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/add-category' element={
+              <AdminProtected >
+                <AddNewCategory />
+              </AdminProtected>
+            } />
 
-  <Route path='/adminHome' element={
-    <AdminProtected >
-      <AdminHome />
-    </AdminProtected>
-  } />
+            <Route path='/adminHome' element={
+              <AdminProtected >
+                <AdminHome />
+              </AdminProtected>
+            } />
+
+         <Route path='/category-list' element={
+              <AdminProtected >
+                <CategoryList  />
+              </AdminProtected>
+            } />
 
 
-  <Route path='/category-list' element={<CategoryList />} />
-  <Route path='/update-category/:id' element={<AdminProtected >
-    <UpdateCategory />
-    </AdminProtected>} />
-  <Route path='/create-post' element={
-    <UserProtected >
-      <CreatePost />
-    </UserProtected>
-  } />
+            {/* <Route path='/category-list' element={<CategoryList />} /> */}
+            <Route path='/update-category/:id' element={<AdminProtected >
+              <UpdateCategory />
+            </AdminProtected>} />
 
-<Route path='/update-post/:id' element={
-    <UserProtected >
-      <UpdatePost/>
-    </UserProtected>
-  } />
+            <Route path='/create-post' element={
+              <UserProtected >
+                <CreatePost />
+              </UserProtected>
+            } />
 
-  <Route path='/userHome' element={
-    <UserProtected >
-      <UserHome />
-    </UserProtected>
-  } />
+        <Route path='/update-profile/:id' element={
+              <UserProtected >
+                <UpdateProfileForm />
+              </UserProtected>
+            } />
 
-  <Route path='/posts' element={<PostsList />} />
-  <Route path='/posts/:id' element={<PostDetails/>} />
 
-</Routes>
+            <Route path='/update-post/:id' element={
+              <UserProtected >
+                <UpdatePost />
+              </UserProtected>
+            } />
 
-</Router>
-<ToastContainer toastClassName=" relative flex p-1 min-h-10 rounded-md justify-between overflow-hidden cursor-pointer" />
+            <Route path='/userHome' element={
+              <UserProtected >
+                <UserHome />
+              </UserProtected>
+            } />
 
-</GoogleOAuthProvider>
-      
+           <Route path='/upload-profile-photo' element={
+              <UserProtected >
+                <UploadProfilePhoto />
+              </UserProtected>
+            } />
+
+
+            <Route path='/profile/:id' element={
+              <UserProtected >
+                <Profile />
+              </UserProtected>
+            } />
+
+            <Route path='/posts' element={<PostsList />} />
+            <Route path='/posts/:id' element={<PostDetails />} />
+
+          </Routes>
+
+        </Router>
+        <ToastContainer toastClassName=" relative flex p-1 min-h-10 rounded-md justify-between overflow-hidden cursor-pointer" />
+
+      </GoogleOAuthProvider>
+
 
     </>
 

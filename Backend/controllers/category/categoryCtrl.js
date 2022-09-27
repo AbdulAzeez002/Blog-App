@@ -19,7 +19,7 @@ const fetchCategoriesCtrl = expressAsyncHandler(async (req, res) => {
     try {
       const categories = await Category.find({})
         .populate("user")
-        .sort("-createdAt");
+        .sort({"title":1});
       res.json(categories);
     } catch (error) {
       res.json(error);

@@ -26,14 +26,14 @@ function classNames(...classes) {
 
 const PrivateNavbar = ({ isLogin }) => {
   const userNavigation = [
-    { name: "Your Profile", href: `/profile` },
+    { name: "Your Profile", href: `/profile/${isLogin?._id}` },
     { name: "Change your password", href: "/update-password" },
   ];
 
   //logout
   const dispatch = useDispatch();
   return (
-    <Disclosure as="nav" className="bg-cyan-900 ">
+    <Disclosure as="nav" className="bg-cyan-800 fixed top-0 left-0 right-0 z-10 ">
       {({ open }) => (
         <>
           <div className=" mx-auto px-4 sm:px-6 lg:px-8">
@@ -110,7 +110,7 @@ const PrivateNavbar = ({ isLogin }) => {
                             <span className="sr-only">Open user menu</span>
                             <img
                               className="h-8 w-8 rounded-full"
-
+                              src={isLogin?.profilePhoto}
                               alt=""
                             />
                           </Menu.Button>
@@ -132,15 +132,15 @@ const PrivateNavbar = ({ isLogin }) => {
                             {userNavigation.map(item => (
                               <Menu.Item key={item.name}>
                                 {({ active }) => (
-                                  <a
-                                    href={item.href}
+                                  <Link
+                                    to={item.href}
                                     className={classNames(
                                       active ? "bg-gray-100" : "",
                                       "block px-4 py-2 text-sm text-gray-700"
                                     )}
                                   >
                                     {item.name}
-                                  </a>
+                                  </Link>
                                 )}
                               </Menu.Item>
                             ))}
@@ -157,9 +157,9 @@ const PrivateNavbar = ({ isLogin }) => {
           <Disclosure.Panel className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
               {navigation.map(item => (
-                <a
+                <Link
                   key={item.name}
-                  href={item.href}
+                  to={item.href}
                   className={classNames(
                     item.current
                       ? "bg-gray-900 text-white"
@@ -169,17 +169,17 @@ const PrivateNavbar = ({ isLogin }) => {
                   aria-current={item.current ? "page" : undefined}
                 >
                   {item.name}
-                </a>
+                </Link>
               ))}
-              <a
-                href={'/login'}
+              <Link
+                to={'/create-post'}
 
                 className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
 
                 aria-current={undefined}
               >
                 CREATE BLOG
-              </a>
+              </Link>
 
 
             </div>
@@ -189,32 +189,29 @@ const PrivateNavbar = ({ isLogin }) => {
                 <div className="flex-shrink-0">
                   <img
                     className="h-10 w-10 rounded-full"
-                    // src={isLogin.profilePhoto}
+                    src={isLogin?.profilePhoto}
                     alt=""
                   />
                 </div>
                 <div className="ml-3">
                   <div className="text-base font-medium text-white">
-                    {/* {user.name} */}
+                    {isLogin?.firstName} {isLogin?.lastName}
                   </div>
                   <div className="text-sm font-medium text-gray-400">
                     {/* {user.email} */}
                   </div>
                 </div>
-                <button className="ml-auto flex-shrink-0 bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
-                  <span className="sr-only">View notifications</span>
-                  <BellIcon className="h-6 w-6" aria-hidden="true" />
-                </button>
+                
               </div>
               <div className="mt-3 px-2 space-y-1 sm:px-3">
                 {userNavigation.map(item => (
-                  <a
+                  <Link
                     key={item.name}
-                    href={item.href}
+                    to={item.href}
                     className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
                   >
                     {item.name}
-                  </a>
+                  </Link>
                 ))}
               </div>
             </div>
