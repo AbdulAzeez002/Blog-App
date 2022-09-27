@@ -21,6 +21,8 @@ import UpdatePost from './components/Posts/UpdatePost';
 import Profile from './components/User/Profile/Profile';
 import UploadProfilePhoto from './components/User/Profile/UploadProfilePhoto';
 import UpdateProfileForm from './components/User/Profile/UpdateProfileForm';
+import UsersList from './components/User/UsersList/UsersList';
+
 function App() {
   return (
     <>
@@ -39,15 +41,21 @@ function App() {
               </AdminProtected>
             } />
 
+            <Route path='/users' element={
+              <AdminProtected >
+                <UsersList />
+              </AdminProtected>
+            } />
+
             <Route path='/adminHome' element={
               <AdminProtected >
                 <AdminHome />
               </AdminProtected>
             } />
 
-         <Route path='/category-list' element={
+            <Route path='/category-list' element={
               <AdminProtected >
-                <CategoryList  />
+                <CategoryList />
               </AdminProtected>
             } />
 
@@ -63,7 +71,7 @@ function App() {
               </UserProtected>
             } />
 
-        <Route path='/update-profile/:id' element={
+            <Route path='/update-profile/:id' element={
               <UserProtected >
                 <UpdateProfileForm />
               </UserProtected>
@@ -82,7 +90,7 @@ function App() {
               </UserProtected>
             } />
 
-           <Route path='/upload-profile-photo' element={
+            <Route path='/upload-profile-photo' element={
               <UserProtected >
                 <UploadProfilePhoto />
               </UserProtected>

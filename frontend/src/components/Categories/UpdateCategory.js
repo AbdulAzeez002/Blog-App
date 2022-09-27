@@ -57,7 +57,7 @@ const UpdateCategory = ({
   });
 
   return (
-    <div className="flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="flex items-center justify-center bg-gray-50 min-h-screen px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div>
         <BiCategory className="mx-auto h-12 w-auto text-cyan-900 " />
@@ -126,7 +126,7 @@ const UpdateCategory = ({
                   >
                     <span className="absolute left-0 inset-y-0 flex items-center pl-3">
                       <PlusCircleIcon
-                        className="h-5 w-5 text-white group-hover:text-indigo-400"
+                        className="h-5 w-5 text-white"
                         aria-hidden="true"
                       />
                     </span>

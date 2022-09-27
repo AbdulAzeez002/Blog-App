@@ -181,7 +181,7 @@ export const fetchUserDetailsAction = createAsyncThunk(
 
 //fetch all users
 export const fetchUsersAction = createAsyncThunk(
-  "user/list",
+  "user/lists",
   async (id, { rejectWithValue, getState, dispatch }) => {
     //get user token
     const user = getState()?.users;
@@ -239,7 +239,7 @@ export const unfollowUserAction = createAsyncThunk(
     const { userAuth } = user;
     const config = {
       headers: {
-        Authorization: `Bearer ${userAuth?.token}`,
+        authorization: `Bearer ${userAuth?.token}`,
       },
     };
     //http call
@@ -248,6 +248,65 @@ export const unfollowUserAction = createAsyncThunk(
         `${baseUrl}/api/users/unfollow`,
         { unFollowId },
         config
+      );
+      return data;
+    } catch (error) {
+      if (!error?.response) {
+        throw error;
+      }
+      return rejectWithValue(error?.response?.data);
+    }
+  }
+);
+
+// block user
+
+export const blockUserAction = createAsyncThunk(
+  "user/block",
+  async (Id, { rejectWithValue, getState, dispatch }) => {
+    console.log(Id);
+    //get user token
+    const user = getState()?.users;
+    const { userAuth } = user;
+    const config = {
+      headers: {
+        authorization: `Bearer ${userAuth?.token}`,
+      },
+    };
+    //http call
+    try {
+      console.log(config,'config');
+      const { data } = await axios.put(
+        `${baseUrl}/api/users/block-user/${Id}`,{},config
+      );
+      return data;
+    } catch (error) {
+      if (!error?.response) {
+        throw error;
+      }
+      return rejectWithValue(error?.response?.data);
+    }
+  }
+);
+
+// unblock user
+
+export const unBlockUserAction = createAsyncThunk(
+  "user/unblock",
+  async (Id, { rejectWithValue, getState, dispatch }) => {
+    //get user token
+    const user = getState()?.users;
+    const { userAuth } = user;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userAuth?.token}`,
+      },
+    };
+    //http call
+    try {
+      const { data } = await axios.put(
+        `${baseUrl}/api/users/unblock-user/${Id}`,{},config
+        
       );
       return data;
     } catch (error) {
@@ -430,7 +489,6 @@ const usersSlices = createSlice({
       state.serverErr = undefined;
     });
     builder.addCase(fetchUsersAction.rejected, (state, action) => {
-      console.log(action.payload);
       state.loading = false;
       state.appErr = action?.payload?.message;
       state.serverErr = action?.error?.message;
@@ -496,6 +554,42 @@ const usersSlices = createSlice({
       state.appErr = action?.payload?.message;
       state.serverErr = action?.error?.message;
       state.loading = false;
+    });
+
+    //block User
+    builder.addCase(blockUserAction.pending, (state, action) => {
+      state.loading = true;
+      state.appErr = undefined;
+      state.serverErr = undefined;
+    });
+    builder.addCase(blockUserAction.fulfilled, (state, action) => {
+      state.loading = false;
+      state.blocked = action?.payload;
+      state.appErr = undefined;
+      state.serverErr = undefined;
+    });
+    builder.addCase(blockUserAction.rejected, (state, action) => {
+      state.loading = false;
+      state.appErr = action?.payload?.message;
+      state.serverErr = action?.error?.message;
+    });
+
+    //unblock User
+    builder.addCase(unBlockUserAction.pending, (state, action) => {
+      state.loading = true;
+      state.appErr = undefined;
+      state.serverErr = undefined;
+    });
+    builder.addCase(unBlockUserAction.fulfilled, (state, action) => {
+      state.loading = false;
+      state.unblocked = action?.payload;
+      state.appErr = undefined;
+      state.serverErr = undefined;
+    });
+    builder.addCase(unBlockUserAction.rejected, (state, action) => {
+      state.loading = false;
+      state.appErr = action?.payload?.message;
+      state.serverErr = action?.error?.message;
     });
   },
 });

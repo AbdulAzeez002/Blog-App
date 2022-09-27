@@ -5,11 +5,9 @@ const User = require("../models/user/User");
 
 const authMiddleware = expressAsyncHandler(async (req, res, next) => {
   let token;
-
   if (req?.headers?.authorization?.startsWith("Bearer")) {
-    
     token = req.headers.authorization.split(" ")[1];
-    
+    console.log(token,'token');
     try {
       if (token) {
         
@@ -29,7 +27,6 @@ const authMiddleware = expressAsyncHandler(async (req, res, next) => {
     }
   }
    else {
-  
     throw new Error("There is no token attached to the header");
   }
 });

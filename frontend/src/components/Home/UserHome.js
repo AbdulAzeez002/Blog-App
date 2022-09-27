@@ -1,5 +1,5 @@
 import React from 'react'
-import poster from "../../img/logo2.jpg";
+import poster from "../../img/blogLogo.webp";
 const UserHome = () => {
   return (
     <section className=" pt-28 px-14 bg-gray-30">

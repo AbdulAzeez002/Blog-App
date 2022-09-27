@@ -1,6 +1,6 @@
 import { Disclosure } from "@headlessui/react";
 import { Link } from "react-router-dom";
-import {ImBlog} from 'react-icons/im'
+import { ImBlog } from 'react-icons/im'
 import {
   MenuIcon,
   XIcon,
@@ -11,7 +11,7 @@ import { PlusIcon } from "@heroicons/react/solid";
 
 const navigation = [
   { name: "HOME", href: "/", current: false },
-  
+
   { name: "POSTS", href: "/posts", current: false },
   // { name: "REGISTER", href: "/register", current: false },
   // { name: "LOGIN", href: "/login", current: false },
@@ -45,24 +45,26 @@ const PublicNavbar = () => {
                   <ImBlog className="h-10 w-10 text-white" />
                   <span className="ml-3 text-2xl text-white font-bold">PROCODER</span>
                 </div>
-                <div className="hidden md:ml-40 md:flex md:items-center  md:space-x-4">
-                  {navigation.map(item => (
-                    <Link
-                      key={item.name}
-                      to={item.href}
-                      className={classNames(
-                        item.current
-                          ? "bg-gray-900 text-white"
-                          : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                        "px-3 py-2 rounded-md text-sm font-medium"
-                      )}
-                      aria-current={item.current ? "page" : undefined}
-                    >
-                      {item.name}
-                    </Link>
-                  ))}
-                </div>
+
               </div>
+              <div className="hidden  md:flex md:items-center md:justify-center  md:space-x-6">
+                {navigation.map(item => (
+                  <Link
+                    key={item.name}
+                    to={item.href}
+                    className={classNames(
+                      item.current
+                        ? "bg-gray-900 text-white"
+                        : "text-gray-300 hover:bg-cyan-700 hover:text-white",
+                      "px-3 py-2 rounded-md text-sm font-medium"
+                    )}
+                    aria-current={item.current ? "page" : undefined}
+                  >
+                    {item.name}
+                  </Link>
+                ))}
+              </div>
+
               <div className="flex items-center ">
                 <div className="flex-shrink-0">
                   <Link
@@ -111,14 +113,14 @@ const PublicNavbar = () => {
                 </a>
               ))}
               <a
-                  href={'/register'}
-                  
-                  className= "text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-                  
-                  aria-current={undefined}
-                >
-                   REGISTER
-                </a>
+                href={'/register'}
+
+                className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+
+                aria-current={undefined}
+              >
+                REGISTER
+              </a>
             </div>
           </Disclosure.Panel>
         </>

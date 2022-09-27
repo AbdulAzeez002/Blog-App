@@ -1,5 +1,5 @@
 const express = require("express");
-const { profilePhotoUploadCtrl,unfollowUserCtrl,followingUserCtrl,userRegister,loginUser,fetchUsers,generateOtp,deleteUser ,fetchUserDetail,updateUserCtrl,updateUserPasswordCtrl,userProfileCtrl} = require("../../controllers/user/userController");
+const { profilePhotoUploadCtrl,blockUserCtrl,unBlockUserCtrl,unfollowUserCtrl,followingUserCtrl,userRegister,loginUser,fetchUsers,generateOtp,deleteUser ,fetchUserDetail,updateUserCtrl,updateUserPasswordCtrl,userProfileCtrl} = require("../../controllers/user/userController");
 const authMiddleware = require("../../middlewares/authMiddleware");
 const otpMiddleware=require("../../middlewares/otpMiddleware");
 const { PhotoUpload,profilePhotoResize } = require("../../middlewares/uploads/photoUpload");
@@ -20,6 +20,8 @@ userRoutes.put("/follow",authMiddleware, followingUserCtrl);
 userRoutes.put("/unfollow",authMiddleware, unfollowUserCtrl);
 userRoutes.delete("/:id",authMiddleware, deleteUser);
 userRoutes.get("/:id", fetchUserDetail);
+userRoutes.put("/block-user/:id", authMiddleware, blockUserCtrl);
+userRoutes.put("/unblock-user/:id", authMiddleware, unBlockUserCtrl);
 userRoutes.post("/otpGenerate",generateOtp);
 
 

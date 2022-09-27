@@ -112,7 +112,7 @@ const loginUser = expressAsyncHandler(async (req, res) => {
 const fetchUsers = expressAsyncHandler(async (req, res) => {
     
     try {
-      const users = await User.find({})
+      const users = await User.find({}).populate('posts')
       res.json(users);
     } catch (error) {
       res.json(error);
@@ -148,6 +148,9 @@ const fetchUserDetail = expressAsyncHandler(async (req, res) => {
       res.json(error);
     }
   });
+
+
+
 
 
 //------------------------------
@@ -322,7 +325,42 @@ const profilePhotoUploadCtrl = expressAsyncHandler(async (req, res) => {
  res.json(foundUser);
 });
 
+//------------------------------
+//Block user
+//------------------------------
+
+const blockUserCtrl = expressAsyncHandler(async (req, res) => {
+  const { id } = req.params;
+  validateMongodbId(id);
+
+  const user = await User.findByIdAndUpdate(
+    id,
+    {
+      isBlocked: true,
+    },
+    { new: true }
+  );
+  res.json(user);
+});
+
+//------------------------------
+//UnBlock user
+//------------------------------
+
+const unBlockUserCtrl = expressAsyncHandler(async (req, res) => {
+  const { id } = req.params;
+  validateMongodbId(id);
+
+  const user = await User.findByIdAndUpdate(
+    id,
+    {
+      isBlocked: false,
+    },
+    { new: true }
+  );
+  res.json(user);
+});
 
 
-module.exports = {followingUserCtrl,unfollowUserCtrl, generateOtp,userRegister,loginUser,fetchUsers,deleteUser,fetchUserDetail,userProfileCtrl,
+module.exports = {blockUserCtrl,unBlockUserCtrl,followingUserCtrl,unfollowUserCtrl, generateOtp,userRegister,loginUser,fetchUsers,deleteUser,fetchUserDetail,userProfileCtrl,
   updateUserCtrl,updateUserPasswordCtrl,profilePhotoUploadCtrl};

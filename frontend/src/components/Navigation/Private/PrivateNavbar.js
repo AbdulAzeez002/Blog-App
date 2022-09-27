@@ -27,7 +27,7 @@ function classNames(...classes) {
 const PrivateNavbar = ({ isLogin }) => {
   const userNavigation = [
     { name: "Your Profile", href: `/profile/${isLogin?._id}` },
-    { name: "Change your password", href: "/update-password" },
+    // { name: "Change your password", href: "/update-password" },
   ];
 
   //logout
@@ -55,7 +55,8 @@ const PrivateNavbar = ({ isLogin }) => {
                   <ImBlog className="h-10 w-10 text-white" />
                   <span className="ml-3 text-2xl text-white font-bold">PROCODER</span>
                 </div>
-                <div className="hidden md:ml-40 md:flex md:items-center md:space-x-4">
+                </div>
+                <div className="hidden  md:flex md:items-center md:space-x-4">
                   {navigation.map(item => (
                     <Link
                       key={item.name}
@@ -63,7 +64,7 @@ const PrivateNavbar = ({ isLogin }) => {
                       className={classNames(
                         item.current
                           ? "bg-gray-900 text-white"
-                          : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                          : "text-gray-300 hover:bg-cyan-700 hover:text-white",
                         "px-3 py-2 rounded-md text-sm font-medium"
                       )}
                       aria-current={item.current ? "page" : undefined}
@@ -72,7 +73,7 @@ const PrivateNavbar = ({ isLogin }) => {
                     </Link>
                   ))}
                 </div>
-              </div>
+              
               <div className="flex items-center ">
                 <div className="hidden md:ml-4 md:flex-shrink-0 md:flex md:items-center">
                   <Link

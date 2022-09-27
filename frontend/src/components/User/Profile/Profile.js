@@ -84,8 +84,8 @@ export default function Profile() {
                               </span>
                             )} */}
                           </h1>
-                          <p className="m-3 text-lg">
-                            Date Joined:
+                          <p className="m-3 text-lg"><span className="font-bold text-rose-700"> Date Joined:</span>
+                           
                             <DateFormatter date={profile?.createdAt} />{" "}
                           </p>
                           <p className="text-green-600 mt-2 mb-2">
@@ -94,15 +94,15 @@ export default function Profile() {
                             {profile?.following?.length} following
                           </p>
                           {/* Who view my profile */}
-                          <div className="flex items-center  mb-2">
+                          {/* <div className="flex items-center  mb-2">
                             <EyeIcon className="h-5 w-5 " />
                             <div className="pl-2">
-                              {/* {profile?.viewedBy?.length}{" "} */}
+                              {profile?.viewedBy?.length}{" "}
                               <span className="text-indigo-400 cursor-pointer hover:underline">
                                 users viewed your profile
                               </span>
                             </div>
-                          </div>
+                          </div> */}
 
                           {/* is login user */}
                           {/* Upload profile photo */}

@@ -60,14 +60,14 @@ const fetchAllPosts = expressAsyncHandler(async (req, res) => {
     // check it has category
     if(hasCategory!='undefined' && hasCategory!='ALL CATAGORIES' && hasCategory!=undefined){
       console.log('has')
-      const posts = await Post.find({category:hasCategory}).populate("user").populate("comments");
+      const posts = await Post.find({category:hasCategory}).populate("user").populate("comments").sort('-createdAt');
       console.log(posts)
       res.json(posts);
     }
     
     else{
       
-      const posts = await Post.find({}).populate("user").populate("comments");
+      const posts = await Post.find({}).populate("user").populate("comments").sort('-createdAt');
       res.json(posts);
     }
     

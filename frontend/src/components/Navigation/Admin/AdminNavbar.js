@@ -2,7 +2,7 @@
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { useDispatch } from "react-redux";
-import {ImBlog} from 'react-icons/im'
+import { ImBlog } from 'react-icons/im'
 
 import { Link } from "react-router-dom";
 import {
@@ -32,8 +32,8 @@ const AdminNavbar = ({ isLogin }) => {
   //Navigation
   const userNavigation = [
     { name: "Your Profile", href: `/profile/${isLogin?._id}` },
-    { name: "Change your password", href: "/update-password" },
-    
+    // { name: "Change your password", href: "/update-password" },
+
   ];
   //logout
   const dispatch = useDispatch();
@@ -60,27 +60,28 @@ const AdminNavbar = ({ isLogin }) => {
                   <ImBlog className="h-10 w-10 text-white" />
                   <span className="ml-3 text-2xl text-white font-bold">PROCODER</span>
                 </div>
-                <div className="hidden md:ml-40 md:flex md:items-center md:space-x-4">
-                  {navigation.map(item => (
-                    <Link
-                      key={item.name}
-                      to={item.href}
-                      className={classNames(
-                        item.current
-                          ? "bg-gray-900 text-white"
-                          : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                        "px-3 py-2 rounded-md text-sm font-medium capitalize "
-                      )}
-                      aria-current={item.current ? "page" : undefined}
-                    >
-                      
-                      {item.name}
-                      
-                      
-                    </Link>
-                  ))}
-                </div>
               </div>
+              <div className="hidden  md:flex md:items-center md:space-x-4">
+                {navigation.map(item => (
+                  <Link
+                    key={item.name}
+                    to={item.href}
+                    className={classNames(
+                      item.current
+                        ? "bg-gray-900 text-white"
+                        : "text-gray-300 hover:bg-cyan-700 hover:text-white",
+                      "px-3 py-2 rounded-md text-sm font-medium capitalize "
+                    )}
+                    aria-current={item.current ? "page" : undefined}
+                  >
+
+                    {item.name}
+
+
+                  </Link>
+                ))}
+              </div>
+
               <div className="flex items-center">
 
 
@@ -98,8 +99,8 @@ const AdminNavbar = ({ isLogin }) => {
                     <span>NEW POST</span>
                   </Link>
 
-                    </div>
-                    <div className="flex-shrink-0">
+                </div>
+                <div className="flex-shrink-0">
                   {/* Logout */}
                   <button
                     onClick={() => dispatch(logoutAction())}
@@ -145,15 +146,15 @@ const AdminNavbar = ({ isLogin }) => {
                             {userNavigation.map(item => (
                               <Menu.Item key={item.name}>
                                 {({ active }) => (
-                                  <a
-                                    href={item.href}
+                                  <Link
+                                    to={item.href}
                                     className={classNames(
                                       active ? "bg-gray-100" : "",
                                       "block px-4 py-2 text-sm text-gray-700"
                                     )}
                                   >
                                     {item.name}
-                                  </a>
+                                  </Link>
                                 )}
                               </Menu.Item>
                             ))}
@@ -185,14 +186,14 @@ const AdminNavbar = ({ isLogin }) => {
                 </Link>
               ))}
               <Link
-                  to={'/login'}
-                  
-                  className= "text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-                  
-                  aria-current={undefined}
-                >
-                   CREATE POST
-                </Link>
+                to={'/login'}
+
+                className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+
+                aria-current={undefined}
+              >
+                CREATE POST
+              </Link>
             </div>
             <div className="pt-4 pb-3 border-t border-gray-700">
               <div className="flex items-center px-5 sm:px-6">
@@ -204,7 +205,7 @@ const AdminNavbar = ({ isLogin }) => {
                   <div className="text-base font-medium text-white">
                     {isLogin?.firstName} {isLogin?.lastName}
                   </div>
-                  
+
                 </div>
                 {/* <button className="ml-auto flex-shrink-0 bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                   <span className="sr-only">View notifications</span>
