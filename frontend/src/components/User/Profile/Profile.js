@@ -192,7 +192,7 @@ export default function Profile() {
                 <div className="flex justify-center place-items-start flex-wrap  md:mb-0">
                   {/* <div className="w-full md:w-1/3 px-4 mb-4 md:mb-0">
                     <h1 className="text-center text-xl border-gray-500 mb-2 border-b-2">
-                      Who viewed my profile : 9
+                      Your followers
                     </h1>
 
                     <ul className="">
@@ -200,8 +200,8 @@ export default function Profile() {
                         <div className="flex mb-2 items-center space-x-4 lg:space-x-6">
                           <img
                             className="w-16 h-16 rounded-full lg:w-20 lg:h-20"
-                            src={user.profilePhoto}
-                            alt={user?._id}
+                            // src={user.profilePhoto}
+                            // alt={user?._id}
                           />
                           <div className="font-medium text-lg leading-6 space-y-1">
                             <h3>

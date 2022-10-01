@@ -99,6 +99,7 @@ const loginUser = expressAsyncHandler(async (req, res) => {
         isAdmin: userFound?.isAdmin,
         token: generateToken(userFound?._id),
         isVerified: userFound?.isAccountVerified,
+        blocked:userFound?.isBlocked
       }); 
     } else {
       res.status(401)
@@ -168,7 +169,9 @@ const userProfileCtrl = expressAsyncHandler(async (req, res) => {
   try {
     const myProfile = await User.findById(id)
       .populate("posts")
-      .populate("viewedBy");
+      .populate("viewedBy")
+      .populate("followers")
+      .populate("following")
     const alreadyViewed = myProfile?.viewedBy?.find(user => {
       console.log(user);
       return user?._id?.toString() === loginUserId;

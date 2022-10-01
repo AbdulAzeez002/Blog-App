@@ -248,6 +248,7 @@ const postSlice = createSlice({
     builder.addCase(toggleAddLikesToPost.fulfilled, (state, action) => {
       state.likes = action?.payload;
       state.loading = false;
+      state.liked=true;
       state.appErr = undefined;
       state.serverErr = undefined;
     });
@@ -264,6 +265,7 @@ const postSlice = createSlice({
     builder.addCase(toggleAddDisLikesToPost.fulfilled, (state, action) => {
       state.dislikes = action?.payload;
       state.loading = false;
+      state.disliked=true;
       state.appErr = undefined;
       state.serverErr = undefined;
     });

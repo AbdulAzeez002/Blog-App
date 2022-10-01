@@ -22,20 +22,16 @@ export default function PostsList() {
    const[categoryName,setCategoryName]=useState('')
    const sanitizedData = (data) => ({ __html: DOMPurify.sanitize(data) })
    const { postLists, loading, appErr, serverErr, likes, dislikes } = post;
-   
 
    const [currentPage, setCurrentPage] = useState(1);
    const [postsPerPage, setPostsPerPage] = useState(2);
    const [data,setData]=useState([])
    const [all,setAll]=useState([])
 
-
    const lastPostIndex = currentPage * postsPerPage;
    const firstPostIndex = lastPostIndex - postsPerPage;
 
    
-
- 
   //dispatch
   const dispatch = useDispatch();
 
@@ -43,6 +39,17 @@ export default function PostsList() {
     dispatch(fetchPostsAction());
   }, []);
 
+
+
+   
+  // useEffect(() => {
+  //   first
+  
+  //   return () => {
+  //     second
+  //   }
+  // }, [third])
+  
 
   const categorySelected=(title)=>{
     dispatch(fetchPostsAction(title))
@@ -66,6 +73,14 @@ export default function PostsList() {
     dispatch(fetchCategoriesAction());
   }, []);
 
+  // useEffect(() => {
+  //   first
+  
+  //   return () => {
+  //     second
+  //   }
+  // }, [third])
+  
 
   useEffect(() => {
     if(postLists){
@@ -84,6 +99,8 @@ export default function PostsList() {
     appErr: catAppErr,
     serverErr: catServerErr,
   } = category;
+
+  
 
   return (
     <>
@@ -160,18 +177,32 @@ export default function PostsList() {
                         {/* Likes */}
                         <div className="flex flex-row justify-center items-center ml-4 mr-4 pb-2 pt-1">
                           {/* Togle like  */}
-                          <div className="">
-                            <ThumbUpIcon onClick={() => dispatch(toggleAddLikesToPost(post?._id))} className="h-7 w-7 text-gray-600 cursor-pointer" />
-                          </div>
-                          <div className="pl-2 text-gray-600">
+                           {
+                             post?.likes.includes(userAuth?._id) ?
+                                <div className="">
+                                <ThumbUpIcon onClick={() => dispatch(toggleAddLikesToPost(post?._id))} className="h-7 w-7 text-blue-600 cursor-pointer" />
+                              </div>:<div className="">
+                                <ThumbUpIcon onClick={() => dispatch(toggleAddLikesToPost(post?._id))} className="h-7 w-7 text-gray-600 cursor-pointer" />
+                              </div>
+                           }
+                           
+                               <div className="pl-2 text-gray-600">
+                            
                             {post?.likes?.length ? post?.likes?.length : 0}
-                          </div>
+                          </div> 
+                          
+                         
                         </div>
                         {/* Dislike */}
                         <div className="flex flex-row  justify-center items-center ml-4 mr-4 pb-2 pt-1">
-                          <div>
+                          {
+                            post?.disLikes.includes(userAuth?._id) ?<div>
+                            <ThumbDownIcon onClick={() => dispatch(toggleAddDisLikesToPost(post?._id))} className="h-7 w-7 cursor-pointer text-red-600" />
+                          </div>:<div>
                             <ThumbDownIcon onClick={() => dispatch(toggleAddDisLikesToPost(post?._id))} className="h-7 w-7 cursor-pointer text-gray-600" />
                           </div>
+                          }
+                          
                           <div className="pl-2 text-gray-600">
                             {post?.disLikes?.length
                               ? post?.disLikes?.length
@@ -205,7 +236,7 @@ export default function PostsList() {
                         
                         
                         {/* Read more */}
-                        <Link to={`/posts/${post?._id}`} className="text-indigo-500 hover:underline">
+                        <Link to={`/posts/${post?._id}`} o className="text-indigo-500 hover:underline">
                           <p className="text-blue-700 cursor-pointer">Read More..</p>
                         </Link>
                         {/* User Avatar */}

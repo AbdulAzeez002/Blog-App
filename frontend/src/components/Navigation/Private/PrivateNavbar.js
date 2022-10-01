@@ -2,7 +2,8 @@
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { ImBlog } from 'react-icons/im'
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
 import {
   BellIcon,
   MenuIcon,
@@ -17,7 +18,7 @@ const navigation = [
   { name: "HOME", href: "/", current: false },
   // { name: "CREATE", href: "/create-post", current: false },
   { name: "POSTS", href: "/posts", current: false },
-  { name: "AUTHORS", href: "/users", current: false },
+  
 ];
 
 function classNames(...classes) {
@@ -32,6 +33,7 @@ const PrivateNavbar = ({ isLogin }) => {
 
   //logout
   const dispatch = useDispatch();
+  const navigate=useNavigate()
   return (
     <Disclosure as="nav" className="bg-cyan-800 fixed top-0 left-0 right-0 z-10 ">
       {({ open }) => (
@@ -52,8 +54,8 @@ const PrivateNavbar = ({ isLogin }) => {
                 </div>
                 <div className="flex-shrink-0 flex items-center">
                   {/* Logo */}
-                  <ImBlog className="h-10 w-10 text-white" />
-                  <span className="ml-3 text-2xl text-white font-bold">PROCODER</span>
+                  <ImBlog className="h-10 w-10 text-white cursor-pointer" onClick={()=>navigate('/')}/>
+                  <span className="ml-3 text-2xl text-white font-bold cursor-pointer " onClick={()=>navigate('/')}>PROCODER</span>
                 </div>
                 </div>
                 <div className="hidden  md:flex md:items-center md:space-x-4">

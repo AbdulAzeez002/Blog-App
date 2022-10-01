@@ -42,8 +42,11 @@ const Login = () => {
       if (userAuth?.isAdmin) {
         navigate('/adminHome')
       }
-      else {
+      else if(!userAuth?.blocked) {
         navigate('/userHome')
+      }
+      else{
+        toast.error('You are blocked by the admin')
       }
     }
 
